@@ -71,8 +71,8 @@ export default function Map() {
       <View style={styles.buttonContainer}>
         <View style={styles.bubble}>
           <SafeAreaView>
-            <Pressable style={styles.safeview} onPress={showDatepicker}><Text style={styles.btnText}>Show Date Picker</Text></Pressable>
-            <Pressable style={styles.safeview} onPress={showTimepicker}><Text style={styles.btnText}>Show Time Picker</Text></Pressable>
+            <Pressable style={styles.safeview} onPress={showDatepicker}><Text style={styles.btnText}>Date Picker</Text></Pressable>
+            <Pressable style={styles.safeview} onPress={showTimepicker}><Text style={styles.btnText}>Time Picker</Text></Pressable>
             <Pressable style={styles.safeview2} onPress={() => router.navigate({
                 pathname: "/weatherinfo",
                 params: { latitude: latitude, longitude: longitude }
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontFamily: 'Poppins',
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',

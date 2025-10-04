@@ -1,12 +1,46 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import React, { useState } from "react";
+import axios from 'axios';
 
 const WeatherInfo = () => {
+  const { latitude, longitude } = useLocalSearchParams();
+
+
+  async function getinfo(){
+    let link = 'https://power.larc.nasa.gov/api/temporal/hourly/point?start=20070401&end=20070401&latitude=36.69899362589028&longitude=-4.439089563723052&community=ag&parameters=T2M&format=json&units=metric&user=IntelTank&header=true'
+
+    try {
+      await axios.get(link).then(function (response) {
+        let parsedResponse = JSON.parse(response.request.response)
+        let t2mValues = parsedResponse.properties.parameter.T2M
+        console.log(parsedResponse.properties.parameter.T2M)
+
+        let temps = Object.values(t2mValues);
+
+        let meanT2M = temps.reduce((sum, val) => sum + val, 0) / temps.length;
+
+        console.log(meanT2M)
+
+
+
+      })
+    } catch (error){
+      console.error(error)
+    }
+
+  }
+
+  React.useEffect(() => {
+      getinfo();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Information</Text>
       <View>
-        <Text style={styles.text2}>Latitude:</Text>
-        <Text style={styles.text2}>Longitude:</Text>
+        <Text style={styles.text2}>Latitude: {latitude}</Text>
+        <Text style={styles.text2}>Longitude: {longitude}</Text>
         <Text style={styles.text2}>Max. Temperature:</Text>
         <Text style={styles.text2}>Min. Temperature:</Text>
         <Text style={styles.text2}>Humidity:</Text>
@@ -22,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
     fontFamily: 'Poppins',
     textAlign: 'center',
