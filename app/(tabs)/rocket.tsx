@@ -5,7 +5,7 @@ import Rocketcard from '../../components/rockets/card'
 export default function rocket() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>ROCKETZ</Text>
+      <Text style={styles.text}>Launches</Text>
       <Rocketcard
       missionName="Starlink Group 11-17"
       rocketName="Falcon 9 Block 5 | SpaceX"

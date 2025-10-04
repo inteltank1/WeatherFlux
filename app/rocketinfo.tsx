@@ -10,7 +10,9 @@ export default function Index() {
 
     <View>
       <Text style={styles.missionName}>Starlink Group 10-86</Text>
+      <Text style={styles.text}>Rocket: Falcon 9</Text>
       <Text style={styles.text}>Launch Date: 2023-01-01</Text>
+      <Text style={styles.text}>Launch Site: LC-39A, Cape Canaveral</Text>
       <Pressable style={styles.Button} onPress={() => router.navigate('./weatherinfo')}>
         <Text style={styles.buttonText}>Weather Information</Text>
       </Pressable>
@@ -29,7 +31,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
-    margin: 10,
+    marginLeft: 10,
+    margin: 5,
     textAlign: 'left',
     fontFamily: 'Poppins',
   },
