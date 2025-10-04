@@ -5,7 +5,7 @@ import Rocketcard from '../../components/rockets/card'
 export default function rocket() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Rocket</Text>
+      <Text style={styles.text}>ROCKETZ</Text>
       <Rocketcard
       missionName="Starlink Group 11-17"
       rocketName="Falcon 9 Block 5 | SpaceX"
@@ -14,7 +14,6 @@ export default function rocket() {
       time="03:00"
       countdown="4 days, 1 hour"
       imageUrl="https://picsum.photos/400/200"
-      landingType="OCISLY"
       />
 
     </View>

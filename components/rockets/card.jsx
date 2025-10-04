@@ -1,7 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
+
+// Part of the Card is generated using AI, as it has been heavily modified by humans.
 const LaunchCard = ({
   missionName,
   rocketName,
@@ -10,49 +13,46 @@ const LaunchCard = ({
   time,
   countdown,
   imageUrl,
-  landingType,
 }) => {
+
+  const router = useRouter()
+
   return (
     <View style={styles.card}>
-      {/* Image with fallback */}
-      <Image
-        source={
-          imageUrl
-            ? { uri: imageUrl }
-            : { uri: "https://picsum.photos/400/200" } // guaranteed working remote placeholder
-          // OR use local: require("./assets/rocket.jpg")
-        }
-        style={styles.image}
-      />
 
-      <View style={styles.details}>
-        {/* Landing Badge */}
-        <View style={styles.landingBadge}>
-          <MaterialCommunityIcons name="ferry" size={16} color="#fff" />
-          <Text style={styles.landingText}>{landingType}</Text>
-        </View>
+      <TouchableOpacity onPress={() => router.navigate('/rocketinfo')}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: "https://picsum.photos/400/200"  // guaranteed working remote placeholder
+          }}
 
-        {/* Mission Name */}
-        <Text style={styles.title}>{missionName}</Text>
+          />
 
-        {/* Rocket */}
-        <Text style={styles.subtitle}>
-          <MaterialCommunityIcons name="rocket" size={14} /> {rocketName}
-        </Text>
+          <View style={styles.details}>
 
-        {/* Location */}
-        <Text style={styles.subtitle}>
-          <MaterialCommunityIcons name="map-marker" size={14} /> {location}
-        </Text>
+            {/* Mission Name */}
+            <Text style={styles.title}>{missionName}</Text>
 
-        {/* Date + Time */}
-        <Text style={styles.subtitle}>
-          <MaterialCommunityIcons name="clock" size={14} /> {date}, {time}
-        </Text>
+            {/* Rocket */}
+            <Text style={styles.subtitle}>
+              <MaterialCommunityIcons name="rocket" size={14} /> {rocketName}
+            </Text>
 
-        {/* Countdown */}
-        <Text style={styles.countdown}>{countdown}</Text>
-      </View>
+            {/* Location */}
+            <Text style={styles.subtitle}>
+              <MaterialCommunityIcons name="map-marker" size={14} /> {location}
+            </Text>
+
+            {/* Date + Time */}
+            <Text style={styles.subtitle}>
+              <MaterialCommunityIcons name="clock" size={14} /> {date}, {time}
+            </Text>
+
+            {/* Countdown */}
+            <Text style={styles.countdown}>{countdown}</Text>
+          </View>
+        </TouchableOpacity>
     </View>
   );
 };
@@ -70,9 +70,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: "100%",
+    width: 'auto',
     height: 180,
-    resizeMode: "cover", // makes sure it fills
     backgroundColor: "#000", // fallback background in case of slow load
   },
   details: {
