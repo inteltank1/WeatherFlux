@@ -24,7 +24,7 @@ const LaunchCard = ({
         <Image
           style={styles.image}
           source={{
-            uri: "https://picsum.photos/400/200"  // guaranteed working remote placeholder
+            uri: imageUrl || "https://storage.googleapis.com/nextspaceflight/media/rockets/Falcon_9_Block_5.webp"
           }}
 
           />
@@ -48,9 +48,6 @@ const LaunchCard = ({
             <Text style={styles.subtitle}>
               <MaterialCommunityIcons name="clock" size={14} /> {date}, {time}
             </Text>
-
-            {/* Countdown */}
-            <Text style={styles.countdown}>{countdown}</Text>
           </View>
         </TouchableOpacity>
     </View>

@@ -1,11 +1,16 @@
 import React, {useState} from "react";
 import MapView, { Marker } from "react-native-maps";
-import { View, Text, SafeAreaView, Button, StyleSheet } from "react-native";
+import { View, Text, SafeAreaView, Button, Pressable, StyleSheet } from "react-native";
 import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { useRouter } from "expo-router";
 
 
 export default function Map() {
-  const [date, setDate] = useState(new Date(1598051730000));
+  const now = Date.now();
+  const notnow = now + 259200000;
+  const [date, setDate] = useState(new Date(notnow));
+
+  const router = useRouter();
 
     const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
       const currentDate = selectedDate || date;
@@ -28,6 +33,19 @@ export default function Map() {
     const showTimepicker = () => {
       showMode('time');
     };
+
+  const [latitude, changelatitude] = useState(36.69899362589028);
+  const [longitude, changelongitude] = useState(-4.439089563723052);
+
+  function changelongandlat(region) {
+
+    changelatitude(region.latitude)
+    changelongitude(region.longitude)
+
+  }
+
+
+
   return (
 
     <View style={styles.container}>
@@ -35,17 +53,17 @@ export default function Map() {
       <MapView
         style={{ flex: 1, ...StyleSheet.absoluteFillObject }}
         initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: latitude,
+          longitude: longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+        onRegionChange={region => changelongandlat(region)}
       >
 
         <Marker
-          coordinate={{latitude: 37.78825, longitude: -122.4324}}
-          title="This is a native view"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation"
+          coordinate={{latitude: latitude, longitude: longitude}}
+          title="Position"
         />
 
       </MapView>
@@ -53,10 +71,15 @@ export default function Map() {
       <View style={styles.buttonContainer}>
         <View style={styles.bubble}>
           <SafeAreaView>
-                <Button onPress={showDatepicker} title="Show date picker!" />
-                <Button onPress={showTimepicker} title="Show time picker!" />
-                <Text>selected: {date.toLocaleString()}</Text>
-              </SafeAreaView>
+            <Pressable style={styles.safeview} onPress={showDatepicker}><Text style={styles.btnText}>Show Date Picker</Text></Pressable>
+            <Pressable style={styles.safeview} onPress={showTimepicker}><Text style={styles.btnText}>Show Time Picker</Text></Pressable>
+            <Pressable style={styles.safeview2} onPress={() => router.navigate({
+                pathname: "/weatherinfo",
+                params: { latitude: latitude, longitude: longitude }
+              })}><Text style={styles.btnText}>Submit</Text></Pressable>
+            <Text style={styles.dateText}>{date.toLocaleString()}</Text>
+            <Text style={styles.dateText}>Latitude: { latitude }, Longitude: { longitude } </Text>
+          </SafeAreaView>
         </View>
       </View>
 
@@ -73,8 +96,39 @@ const styles = StyleSheet.create({
       ...StyleSheet.absoluteFillObject
 
   },
+  btnText: {
+    fontFamily: 'Poppins',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  safeview: {
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#263E7A',
+  },
+  safeview2: {
+    borderRadius: 5,
+    padding: 10,
+    margin: 5,
+    marginHorizontal: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000521',
+  },
+  dateText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
+    textAlign: 'center',
+  },
   bubble: {
     flex: 1,
+    marginHorizontal: 10,
     backgroundColor: 'rgba(255,255,255,0.7)',
     paddingHorizontal: 18,
     paddingVertical: 12,
