@@ -1,8 +1,33 @@
-import React from "react";
-import MapView, { Overlay, Callout, Marker } from "react-native-maps";
-import { View, Text, StyleSheet } from "react-native";
+import React, {useState} from "react";
+import MapView, { Marker } from "react-native-maps";
+import { View, Text, SafeAreaView, Button, StyleSheet } from "react-native";
+import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
+
 
 export default function Map() {
+  const [date, setDate] = useState(new Date(1598051730000));
+
+    const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+      const currentDate = selectedDate || date;
+      setDate(currentDate);
+    };
+
+    const showMode = (currentMode: 'date') => {
+      DateTimePickerAndroid.open({
+        value: date,
+        onChange,
+        mode: currentMode,
+        is24Hour: true,
+      });
+    };
+
+    const showDatepicker = () => {
+      showMode('date');
+    };
+
+    const showTimepicker = () => {
+      showMode('time');
+    };
   return (
 
     <View style={styles.container}>
@@ -27,7 +52,11 @@ export default function Map() {
 
       <View style={styles.buttonContainer}>
         <View style={styles.bubble}>
-          <Text>Render circles, polygons, and polylines</Text>
+          <SafeAreaView>
+                <Button onPress={showDatepicker} title="Show date picker!" />
+                <Button onPress={showTimepicker} title="Show time picker!" />
+                <Text>selected: {date.toLocaleString()}</Text>
+              </SafeAreaView>
         </View>
       </View>
 
