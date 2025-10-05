@@ -1,7 +1,7 @@
 import React from "react";
 import {useLocalSearchParams} from 'expo-router';
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import Rocketcard from '../../components/rockets/card'
+import LaunchCard from '../../components/rockets/card'
 
 export default function rocket() {
   return (
@@ -13,7 +13,7 @@ export default function rocket() {
 
       <Text style={styles.text}>Launches</Text>
 
-      <Rocketcard
+      <LaunchCard
         rocketName="Falcon 9 Block 5 | SpaceX"
         missionName="Starlink Group 10-59"
         location="Cape Canaveral SFS, Florida, USA"
@@ -22,7 +22,7 @@ export default function rocket() {
         imageUrl="https://storage.googleapis.com/nextspaceflight/media/rockets/Falcon_9_Block_5.webp"
       />
 
-      <Rocketcard
+      <LaunchCard
         missionName="Starlink Group 11-17"
         rocketName="Falcon 9 Block 5 | SpaceX"
         location="Vandenberg SFB, California, USA"
@@ -31,7 +31,7 @@ export default function rocket() {
         imageUrl="https://storage.googleapis.com/nextspaceflight/media/rockets/Falcon_9_Block_5.webp"
       />
 
-      <Rocketcard
+      <LaunchCard
         missionName="NS-36"
         rocketName="New Shepard | Blue Origin"
         location="West Texas, Texas, USA"
@@ -40,7 +40,7 @@ export default function rocket() {
         imageUrl="https://storage.googleapis.com/nextspaceflight/media/rockets/New_Shepard_2.webp"
       />
 
-      <Rocketcard
+      <LaunchCard
         missionName="Project Kuiper (KF-03)"
         rocketName="Falcon 9 Block 5 | SpaceX"
         location="Cape Canaveral SFS, Florida, USA"
@@ -48,7 +48,7 @@ export default function rocket() {
         time="03:34"
         imageUrl="https://storage.googleapis.com/nextspaceflight/media/rockets/Falcon_9_Block_5.webp"
       />
-      <Rocketcard
+      <LaunchCard
         missionName="Unknown Payload"
         rocketName="Long March 8A | CASC"
         location="Wanchang Space Launch Site, China"
@@ -56,7 +56,7 @@ export default function rocket() {
         time="05:19"
         imageUrl="https://storage.googleapis.com/nextspaceflight/media/rockets/CZ-8A.webp"
       />
-      <Rocketcard
+      <LaunchCard
         missionName="Starlink Group 10-52"
         rocketName="Falcon 9 Block 5 | SpaceX"
         location="Cape Canaveral SFS, Florida, USA"
@@ -64,7 +64,7 @@ export default function rocket() {
         time="10:11"
         imageUrl="https://storage.googleapis.com/nextspaceflight/media/rockets/Falcon_9_Block_5.webp"
       />
-      <Rocketcard
+      <LaunchCard
         missionName="Artemis II"
         rocketName="SLS Block 1 | NASA"
         location="Kennedy Space Center, Florida, USA"
