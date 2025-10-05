@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {use, useState} from "react";
 import MapView, { Marker } from "react-native-maps";
 import { View, Text, SafeAreaView, Button, Pressable, StyleSheet } from "react-native";
 import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
@@ -9,12 +9,40 @@ export default function Map() {
   const now = Date.now();
   const notnow = now + 259200000;
   const [date, setDate] = useState(new Date(notnow));
+  const [selectedDateString, setSelectedDateString] = useState('20070401')
+  const [selectedHourString, setSelectedHourString] = useState('00')
 
   const router = useRouter();
 
     const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
       const currentDate = selectedDate || date;
       setDate(currentDate);
+
+      let thedate = ''
+      let thehour = ''
+
+      let day = currentDate.getDate()
+      let month = (currentDate.getMonth() + 1)
+      let year = currentDate.getFullYear();
+      let hour = currentDate.getHours();
+
+      thedate = year.toString()
+
+      if (month - 10 < 0) {
+        thedate = thedate + '0' + month.toString()
+      } else {
+        thedate = thedate + month.toString()
+      }
+
+      if (day - 10 < 0){
+        thedate = thedate + '0' + day.toString()
+      } else {
+        thedate = thedate + day.toString()
+      }
+
+      setSelectedDateString(thedate)
+      setSelectedHourString(thehour)
+
     };
 
     const showMode = (currentMode: 'date') => {
@@ -75,7 +103,7 @@ export default function Map() {
             <Pressable style={styles.safeview} onPress={showTimepicker}><Text style={styles.btnText}>Time Picker</Text></Pressable>
             <Pressable style={styles.safeview2} onPress={() => router.navigate({
                 pathname: "/weatherinfo",
-                params: { latitude: latitude, longitude: longitude }
+                params: { latitude: latitude, longitude: longitude, year: Number(date.getFullYear()), month: Number(date.getMonth()), day: Number(date.getDate()), hour: date.getHours()}
               })}><Text style={styles.btnText}>Submit</Text></Pressable>
             <Text style={styles.dateText}>{date.toLocaleString()}</Text>
             <Text style={styles.dateText}>Latitude: { latitude }, Longitude: { longitude } </Text>
