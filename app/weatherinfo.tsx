@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useState } from "react";
 import axios from 'axios';
+import { BarChart } from "react-native-gifted-charts"
 
 const WeatherInfo = () => {
   const { latitude, longitude, year, month, day , hour } = useLocalSearchParams();
@@ -96,7 +97,7 @@ const WeatherInfo = () => {
   }, []);
 
   const mean = (arr, key) => {
-    const valid = arr.map(item => item[key]).filter(v => v !== undefined && v !== null);
+    const valid = arr.map(item => item[key]).filter(v => v !== undefined && v !== null && v !== -999);
     return valid.reduce((sum, val) => sum + val, 0) / valid.length;
   }
 
@@ -108,25 +109,27 @@ const WeatherInfo = () => {
     let meanPrec = mean(values, 'precval')
     let meanUVA = mean(values, 'uvaval')
 
-    setProbTemp(meanT2M)
-    setProbRain(meanPrec)
-    setProbUV(meanUVA)
+    setProbTemp(meanT2M.toFixed(3))
+    setProbRain(meanPrec.toFixed(3))
+    setProbUV(meanUVA.toFixed(3))
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Entered Information</Text>
       <View style={{marginBottom: 50,}}>
-        <Text style={styles.text2}>Latitude: {latitude}</Text>
-        <Text style={styles.text2}>Longitude: {longitude}</Text>
-        <Text style={styles.text2}>Time: {year}-{month}-{day}, hour: {hour}</Text>
+        <Text style={styles.text2}>Latitude:</Text> <Text style={styles.text3}>{latitude}</Text>
+        <Text style={styles.text2}>Longitude:</Text> <Text style={styles.text3}>{longitude}</Text>
+        <Text style={styles.text2}>Time:</Text><Text style={styles.text3}>{year}-{month}-{day}, hour: {hour}</Text>
       </View>
       <Text style={styles.text}>Weather information:</Text>
       <View>
-        <Text style={styles.text2}>Temperature Probability: {probTemp} Cº</Text>
-        <Text style={styles.text2}>Probability of rain: {probRain} mm/hour</Text>
-        <Text style={styles.text2}>Probable UV Rays: {probUV} MJ/hour</Text>
+        <Text style={styles.text2}>Temperature Probability:</Text><Text style={styles.text3}>{probTemp} Cº</Text>
+        <Text style={styles.text2}>Probability of rain:</Text><Text style={styles.text3}>{probRain} mm/hour</Text>
+        <Text style={styles.text2}>Probable UV Rays:</Text><Text style={styles.text3}>{probUV} MJ/hour</Text>
       </View>
+
+
     </View>
   );
 };
@@ -136,7 +139,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    fontSize: 30,
+    fontSize: 40,
+    textDecorationLine: 'underline',
     fontWeight: 'bold',
     fontFamily: 'Poppins',
     textAlign: 'center',
@@ -150,6 +154,15 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: '#000',
     marginLeft: 10,
+    fontWeight: 'bold',
+    marginTop: 5,
+  },
+  text3: {
+    fontSize: 18,
+    fontFamily: 'Poppins',
+    textAlign: 'left',
+    color: '#000',
+    marginLeft: 20,
     marginTop: 5,
   },
 });

@@ -1,7 +1,7 @@
-import React, {use, useState} from "react";
+import React, {useState} from "react";
 import MapView, { Marker } from "react-native-maps";
-import { View, Text, SafeAreaView, Button, Pressable, StyleSheet } from "react-native";
-import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { View, Text, SafeAreaView, Pressable, StyleSheet, Platform } from "react-native";
+import RNDateTimePicker, { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useRouter } from "expo-router";
 
 
@@ -45,27 +45,28 @@ export default function Map() {
 
     };
 
-    const showMode = (currentMode: 'date') => {
+    const showDatepicker = () => {
       DateTimePickerAndroid.open({
         value: date,
         onChange,
-        mode: currentMode,
+        mode: 'date',
         is24Hour: true,
       });
     };
 
-    const showDatepicker = () => {
-      showMode('date');
-    };
-
     const showTimepicker = () => {
-      showMode('time');
+      DateTimePickerAndroid.open({
+        value: date,
+        onChange,
+        mode: 'time',
+        is24Hour: true,
+      });
     };
 
   const [latitude, changelatitude] = useState(36.69899362589028);
   const [longitude, changelongitude] = useState(-4.439089563723052);
 
-  function changelongandlat(region) {
+  function changelongandlat(region: any) {
 
     changelatitude(region.latitude)
     changelongitude(region.longitude)
@@ -99,8 +100,30 @@ export default function Map() {
       <View style={styles.buttonContainer}>
         <View style={styles.bubble}>
           <SafeAreaView>
-            <Pressable style={styles.safeview} onPress={showDatepicker}><Text style={styles.btnText}>Date Picker</Text></Pressable>
-            <Pressable style={styles.safeview} onPress={showTimepicker}><Text style={styles.btnText}>Time Picker</Text></Pressable>
+            {Platform.OS === 'android' ? (
+              <>
+                <Pressable style={styles.safeview} onPress={showDatepicker}><Text style={styles.btnText}>Date Picker</Text></Pressable>
+                <Pressable style={styles.safeview} onPress={showTimepicker}><Text style={styles.btnText}>Time Picker</Text></Pressable>
+              </>
+            ) : (
+              <View style={styles.iosPickerRow}>
+                <RNDateTimePicker
+                  value={date}
+                  mode="date"
+                  display="compact"
+                  onChange={onChange}
+                  style={styles.iosDatePicker}
+                />
+                <RNDateTimePicker
+                  value={date}
+                  mode="time"
+                  display="compact"
+                  onChange={onChange}
+                  style={styles.iosDatePicker}
+                />
+              </View>
+            )}
+
             <Pressable style={styles.safeview2} onPress={() => router.navigate({
                 pathname: "/weatherinfo",
                 params: { latitude: latitude, longitude: longitude, year: Number(date.getFullYear()), month: Number(date.getMonth()), day: Number(date.getDate()), hour: date.getHours()}
@@ -166,5 +189,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 20,
     backgroundColor: 'transparent',
+  },
+  iosDatePicker: {
+    flex: 1,
+    marginHorizontal: 15,
+    minHeight: 50,
+    minWidth: 120,
+    transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }],
+  },
+  iosPickerRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 15,
+    paddingHorizontal: 10,
   },
 })
